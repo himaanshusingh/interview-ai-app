@@ -1,50 +1,79 @@
-import React,{useState} from 'react'
-import { useNavigate, Link } from 'react-router'
-import "../auth.form.scss"
-import { useAuth } from '../hooks/useAuth'
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { loading, handleLogin } = useAuth();
+  const navigate = useNavigate();
 
-    const { loading, handleLogin } = useAuth()
-    const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleLogin({ email, password });
+    navigate("/");
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        await handleLogin({email,password})
-        navigate('/')
-    }
-
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
-    }
-
-
+  if (loading) {
     return (
-        <main>
-            <div className="form-container">
-                <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="input-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            onChange={(e) => { setEmail(e.target.value) }}
-                            type="email" id="email" name='email' placeholder='Enter email address' />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name='password' placeholder='Enter password' />
-                    </div>
-                    <button className='button primary-button' >Login</button>
-                </form>
-                <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
-            </div>
-        </main>
-    )
-}
+      <main className="flex min-h-screen w-full items-center justify-center">
+        <h1 className="text-xl font-semibold text-white">Loading.......</h1>
+      </main>
+    );
+  }
 
-export default Login
+  return (
+    <main className="flex min-h-screen w-full items-center justify-center px-4">
+      <div className="flex min-w-[350px] flex-col gap-4">
+        <h1 className="text-2xl font-bold text-white">Login</h1>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-sm text-white/90">
+              Email
+            </label>
+            <input
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter email address"
+              className="rounded-xl border-0 bg-white px-4 py-3 text-gray-900 outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className="text-sm text-white/90">
+              Password
+            </label>
+            <input
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              className="rounded-xl border-0 bg-white px-4 py-3 text-gray-900 outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            className="cursor-pointer rounded-2xl border-0 bg-accent-dark px-6 py-3 text-white transition-all duration-300 outline-none active:scale-90"
+          >
+            Login
+          </button>
+        </form>
+        <p className="text-sm text-white/80">
+          Don&apos;t have an account?{" "}
+          <Link to="/register" className="text-accent-dark no-underline hover:underline">
+            Register
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+};
+
+export default Login;

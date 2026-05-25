@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  --color-app-bg: #161616;
+  --color-page: #0d1117;
+  --color-card: #161b22;
+  --color-panel: #1c2230;
+  --color-input: #1e2535;
+  --color-border: #2a3348;
+  --color-text: #e6edf3;
+  --color-muted: #7d8590;
+  --color-accent: #ff2d78;
+  --color-accent-hover: #ff6b9d;
+  --color-accent-dark: #e1034d;
+  --color-highlight: #d20d3b;
+  --color-severity-high: #ff4d4d;
+  --color-severity-medium: #f5a623;
+  --color-severity-low: #3fb950;
+  --color-info-bg: #1b2a4a;
+  --color-info-border: #2d4a7a;
+  --color-info-text: #8ab4f8;
+  --color-info-icon: #4a90e2;
+  --color-intention: #a78bfa;
+  --color-answer: #3fb950;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-app-bg font-sans text-white antialiased;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  .or-divider {
+    @apply flex items-center gap-3 text-xs text-muted;
+  }
+
+  .or-divider::before,
+  .or-divider::after {
+    content: "";
+    @apply h-px flex-1 bg-border;
+  }
+
+  .or-divider span {
+    @apply shrink-0 whitespace-nowrap;
+  }
+
+  .roadmap-list {
+    @apply relative flex flex-col gap-0;
+  }
+
+  .roadmap-list::before {
+    content: "";
+    @apply absolute top-0 bottom-0 left-7 w-0.5 rounded-sm;
+    background: linear-gradient(
+      to bottom,
+      var(--color-accent),
+      color-mix(in srgb, var(--color-accent) 10%, transparent)
+    );
+  }
+
+  .roadmap-day {
+    @apply relative flex flex-col gap-2 py-3 pl-14;
+  }
+
+  .roadmap-day::before {
+    content: "";
+    @apply absolute top-[1.05rem] left-[21px] size-3.5 rounded-full border-2 border-accent bg-card;
+  }
+}
